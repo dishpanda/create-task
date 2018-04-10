@@ -1,0 +1,162 @@
+<html>
+<head>
+	<title>CREATE TASK - AP CSP</title>
+	<meta charset="utf-8"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="https://static.codehs.com/gulp/3d065bc81d3b7edf21e928ce2c764374a03c5cd6/chs-js-lib/chs.js"></script>
+
+
+	<style>
+		canvas {
+		    border: 1px solid black;
+		    display: inline-block;
+		    vertical-align: top;
+		}
+		pre {
+		    border: 1px solid black;
+		    display: inline-block;
+		    width: 400px;
+		    height: 500px;
+		    background-color: #F5F5F5;
+		}
+		body {
+		    font-family: Helvetica, sans-serif
+		}
+	</style>
+
+</head>
+
+<body>
+	<h1>CREATE TASK - AP CSP</h1>
+	<canvas width="400" height="500" class="codehs-editor-canvas"></canvas>
+
+	<script>
+		window.onload = function() {
+			var WIDTH = getWidth();
+			var HEIGHT = getHeight();
+			var NUM_BUTTONS = 4;
+			var BUTTON_HEIGHT = HEIGHT / NUM_BUTTONS;
+
+			setBackgroundColor("#D3D3D3");
+			initButtons();
+			MouseClickMethod(clickHandler);
+
+			function drawRect(l, w, x, y, color, borderColor){
+				var rect = new Rectangle(l, w);
+				rect.setPosition(x, y);
+				rect.setColor(color);
+				rect.setBorderColor(borderColor);
+				add(rect);
+			}
+
+			function writeText(label, x, y, color){
+				var txt = new Text(label, "30pt Helvetica");
+				txt.setPosition(x, y);
+				txt.setColor(color);
+				add(txt);
+			}
+
+			function getNumFromUser(msg){
+				var input = readInt(msg);
+				return input;
+			}
+
+			function checkThetaNegative(theta){
+				if(theta < 0){
+					theta = 360 + theta;
+				}
+				return theta;
+			}
+
+			function initButtons(){
+				for(var i = 0; i <= NUM_BUTTONS; ++i){
+					drawRect(WIDTH, BUTTON_HEIGHT, 0, i * BUTTON_HEIGHT, "#4A5459", "#2C3235");
+				}
+			}
+
+			function clickHandler(e){
+				var x = e.getX();
+				var y = e.getY();
+
+				switch(getButtonClickForY(y)){
+					case 1:
+						//deg to rad
+						degToRadActivity();
+						break;
+					case 2:
+						//sin
+						sinActivity();
+						break;
+					case 3:
+						//cos
+						cosActivity();
+						break;
+					case 4:
+						//tan
+						break;
+				}
+			}
+
+			function getButtonClickForY(y){
+				var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
+				return btn;
+			}
+
+			function setupCard(){
+				removeAll();
+				setBackgroundColor("#D3D3D3");
+				drawRect(WIDTH - 25, HEIGHT - 100, 25, 50, "#4A5459", "2C3235");
+			}
+			// The "Activities" that load after each button click
+
+			function degToRadActivity(){
+				setupCard();
+				var theta = getNumFromUser("Enter an integer angle, in degrees, to convert to radians.");
+				degToRad(theta, true);
+			}
+
+			function sinActivity(){
+				setupCard();
+				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine of.");
+				sin(theta);
+			}
+
+			function cosActivity(){
+				setupCard();
+				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the cosine of.");
+				cos(theta);
+			}
+
+			function tanActivity(){
+				setupCard();
+				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the tangent of.");
+				tan(theta);
+			}
+
+			function degToRad(x, withPi){
+				var theta_rad;
+				x = checkThetaNegative(x);
+				if(withPi){
+					theta_rad = x / 180;
+				} else {
+					theta_rad = (x/180) * Math.PI;
+				}
+
+				return theta_rad;
+			}
+
+			function sin(x){
+				var sinx = Math.sin(degToRad(x));
+			}
+
+			function cos(x){
+
+			}
+
+			function tan(x){
+
+			}
+		}
+	</script>
+</body>
+</html>
