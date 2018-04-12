@@ -31,132 +31,129 @@
 	<canvas width="400" height="500" class="codehs-editor-canvas"></canvas>
 
 	<script>
-		window.onload = function() {
-			var WIDTH = getWidth();
-			var HEIGHT = getHeight();
-			var NUM_BUTTONS = 4;
-			var BUTTON_HEIGHT = HEIGHT / NUM_BUTTONS;
+window.onload = function() {
+    var WIDTH = getWidth();
+    var HEIGHT = getHeight();
+    var NUM_BUTTONS = 4;
+    var BUTTON_HEIGHT = HEIGHT/NUM_BUTTONS;
+    setBackgroundColor("#D3D3D3");
+    initButtons();
+    mouseClickMethod(clickHandler);
+    function initButtons(){
+        for(var i = 0; i < 5; ++i){
+            drawRect(WIDTH, BUTTON_HEIGHT, 0, i * BUTTON_HEIGHT, "#4a5459", "#2c3235");
+        }
+        
+        //TODO: ARROWS that point to right (not necessary, though.)
+        //TODO: TEXT that tells you what each button does.
+    }
+    function drawRect(l, w, x, y, color, borderColor){
+        var rect = new Rectangle(l, w);
+        rect.setPosition(x, y);
+        rect.setColor(color);
+        rect.setBorderColor(borderColor);
+        add(rect);
+    }
 
-			setBackgroundColor("#D3D3D3");
-			initButtons();
-			MouseClickMethod(clickHandler);
+    function writeText(label, x, y, color){
+        var text = new Text(label, "12pt Helvetica");
+        text.setPosition(x, y);
+        text.setColor(color);
+        add(text);
+    }
 
-			function drawRect(l, w, x, y, color, borderColor){
-				var rect = new Rectangle(l, w);
-				rect.setPosition(x, y);
-				rect.setColor(color);
-				rect.setBorderColor(borderColor);
-				add(rect);
-			}
+    function clickHandler(e){
+        var x = e.getX();
+        var y = e.getY();
+        switch(getButtonClick(y)){
+            case 1:
+                degToRadActivity();
+                break;
+            case 2:
+                sineActivity();
+                break;
+            case 3:
+                cosineActivity();
+                break;
+            case 4:
+                tangentActivity();
+                break;
+        }
+    }
+    function getButtonClick(y){
+        var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
+        return btn;
+    }
+    function setupCard(){
+        removeAll();
+        setBackgroundColor("#D3D3D3");
+        drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
+    }
+//---------------------------------------------------------------------------------------------------------
+//Degrees to Radians Activity (exec after btn 1 is clicked)
+    function degToRadActivity(){
+        setupCard();
+        var theta = getNumFromUser("Enter an integer angle, in degrees, to convert to radians.");
+        var theta_rad = degToRad(theta, true);
+		writeText(theta + "° in rad is " + theta_rad + "π rad", 50, 110, Color.WHITE);
+	}
 
-			function writeText(label, x, y, color){
-				var txt = new Text(label, "30pt Helvetica");
-				txt.setPosition(x, y);
-				txt.setColor(color);
-				add(txt);
-			}
-
-			function getNumFromUser(msg){
-				var input = readInt(msg);
-				return input;
-			}
-
-			function checkThetaNegative(theta){
-				if(theta < 0){
-					theta = 360 + theta;
-				}
-				return theta;
-			}
-
-			function initButtons(){
-				for(var i = 0; i <= NUM_BUTTONS; ++i){
-					drawRect(WIDTH, BUTTON_HEIGHT, 0, i * BUTTON_HEIGHT, "#4A5459", "#2C3235");
-				}
-			}
-
-			function clickHandler(e){
-				var x = e.getX();
-				var y = e.getY();
-
-				switch(getButtonClickForY(y)){
-					case 1:
-						//deg to rad
-						degToRadActivity();
-						break;
-					case 2:
-						//sin
-						sinActivity();
-						break;
-					case 3:
-						//cos
-						cosActivity();
-						break;
-					case 4:
-						//tan
-						break;
-				}
-			}
-
-			function getButtonClickForY(y){
-				var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
-				return btn;
-			}
-
-			function setupCard(){
-				removeAll();
-				setBackgroundColor("#D3D3D3");
-				drawRect(WIDTH - 25, HEIGHT - 100, 25, 50, "#4A5459", "2C3235");
-			}
-			// The "Activities" that load after each button click
-
-			function degToRadActivity(){
-				setupCard();
-				var theta = getNumFromUser("Enter an integer angle, in degrees, to convert to radians.");
-				degToRad(theta, true);
-			}
-
-			function sinActivity(){
-				setupCard();
-				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine of.");
-				sin(theta);
-			}
-
-			function cosActivity(){
-				setupCard();
-				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the cosine of.");
-				cos(theta);
-			}
-
-			function tanActivity(){
-				setupCard();
-				var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the tangent of.");
-				tan(theta);
-			}
-
-			function degToRad(x, withPi){
-				var theta_rad;
-				x = checkThetaNegative(x);
-				if(withPi){
-					theta_rad = x / 180;
-				} else {
-					theta_rad = (x/180) * Math.PI;
-				}
-
-				return theta_rad;
-			}
-
-			function sin(x){
-				var sinx = Math.sin(degToRad(x));
-			}
-
-			function cos(x){
-
-			}
-
-			function tan(x){
-
-			}
+    function degToRad(theta, withPi){
+        if(checkIfAngleNegative(theta)){
+            theta = 360 + theta;
+        }
+		if(withPi){
+			theta_rad = theta / 180;
+		} else {
+			theta_rad = (theta/180) * Math.PI;
 		}
-	</script>
+		return theta_rad;
+    }
+//----------------------------------------------------------------------------------------------------------
+//Sine of an angle Activity (exec after btn 2 is clicked)
+    function sineActivity(){
+        setupCard();
+		var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine");
+        var sin_theta = sine(degToRad(theta, false));
+		writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
+    }
+
+    function sine(theta){
+		var sin_theta = Math.sin(theta);
+		return sin_theta;
+    }
+//----------------------------------------------------------------------------------------------------------
+//Cosine of an angle Activity (exec after btn 3 is clicked)
+    function cosineActivity(){
+        setupCard();
+        cosine(); 
+    }
+    function cosine(){
+    }
+//----------------------------------------------------------------------------------------------------------
+//Tangent of an angle Activity (exec after btn 4 is clicked)
+    function tangentActivity(){
+        setupCard();
+        tangent(); 
+    }
+    function tangent(){
+    }
+//----------------------------------------------------------------------------------------------------------
+//Angle positive or negative checker
+    function checkIfAngleNegative(theta){
+        if(theta < 0){
+            return true;
+        }
+        return false;
+    }
+
+//----------------------------------------------------------------------------------------------------------
+//Get num from user
+	function getNumFromUser(msg){
+		var x = readInt(msg);
+		return x;
+	}
+};
+</script>
 </body>
 </html>
