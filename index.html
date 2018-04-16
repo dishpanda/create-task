@@ -1,159 +1,205 @@
 <html>
+
 <head>
-	<title>CREATE TASK - AP CSP</title>
-	<meta charset="utf-8"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script type="text/javascript" src="https://static.codehs.com/gulp/3d065bc81d3b7edf21e928ce2c764374a03c5cd6/chs-js-lib/chs.js"></script>
+    <title>CREATE TASK - AP CSP</title>
+    <meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://static.codehs.com/gulp/3d065bc81d3b7edf21e928ce2c764374a03c5cd6/chs-js-lib/chs.js"></script>
 
 
-	<style>
-		canvas {
-		    border: 1px solid black;
-		    display: inline-block;
-		    vertical-align: top;
-		}
-		pre {
-		    border: 1px solid black;
-		    display: inline-block;
-		    width: 400px;
-		    height: 500px;
-		    background-color: #F5F5F5;
-		}
-		body {
-		    font-family: Helvetica, sans-serif
-		}
-	</style>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        pre {
+            border: 1px solid black;
+            display: inline-block;
+            width: 400px;
+            height: 500px;
+            background-color: #F5F5F5;
+        }
+
+        body {
+            font-family: Helvetica, sans-serif
+        }
+    </style>
 
 </head>
 
 <body>
-	<h1>CREATE TASK - AP CSP</h1>
-	<canvas width="400" height="500" class="codehs-editor-canvas"></canvas>
+    <h1>CREATE TASK - AP CSP</h1>
+    <canvas width="400" height="500" class="codehs-editor-canvas"></canvas>
 
-	<script>
-window.onload = function() {
-    var WIDTH = getWidth();
-    var HEIGHT = getHeight();
-    var NUM_BUTTONS = 4;
-    var BUTTON_HEIGHT = HEIGHT/NUM_BUTTONS;
-    setBackgroundColor("#D3D3D3");
-    initButtons();
-    mouseClickMethod(clickHandler);
-    function initButtons(){
-        for(var i = 0; i < 5; ++i){
-            drawRect(WIDTH, BUTTON_HEIGHT, 0, i * BUTTON_HEIGHT, "#4a5459", "#2c3235");
-        }
-        
-        //TODO: ARROWS that point to right (not necessary, though.)
-        //TODO: TEXT that tells you what each button does.
-    }
-    function drawRect(l, w, x, y, color, borderColor){
-        var rect = new Rectangle(l, w);
-        rect.setPosition(x, y);
-        rect.setColor(color);
-        rect.setBorderColor(borderColor);
-        add(rect);
-    }
+    <script>
+        window.onload = function() {
+            var WIDTH = getWidth();
+            var HEIGHT = getHeight();
+            var NUM_BUTTONS = 4;
+            var BUTTON_HEIGHT = HEIGHT / NUM_BUTTONS;
+            setBackgroundColor("#D3D3D3");
+            initButtons();
+            mouseClickMethod(clickHandler);
 
-    function writeText(label, x, y, color){
-        var text = new Text(label, "12pt Helvetica");
-        text.setPosition(x, y);
-        text.setColor(color);
-        add(text);
-    }
+            function initButtons() {
+                for (var i = 0; i <= NUM_BUTTONS; ++i) {
+                    drawRect(WIDTH, BUTTON_HEIGHT, 0, i * BUTTON_HEIGHT, "#4a5459", "#2c3235");
+                    switch (i) {
+                        case 0:
+                            writeText("Convert Degree Value to Radians", 25, BUTTON_HEIGHT / 2 * (i + 1), "#FFFFFF");
+                            writeText(">", WIDTH - 25, BUTTON_HEIGHT / 2 * (i + 1), "#FFFFFF");
+                            break;
+                        case 1:
+                            writeText("Find the Sine of a Degree Value", 25, BUTTON_HEIGHT / 2 * (i + 2), "#FFFFFF");
+                            writeText(">", WIDTH - 25, BUTTON_HEIGHT / 2 * (i + 2), "#FFFFFF");
+                            break;
+                        case 2:
+                            writeText("Find the Cosine of a Value (°)", 25, BUTTON_HEIGHT / 2 * (i + 3), "#FFFFFF");
+                            writeText(">", WIDTH - 25, BUTTON_HEIGHT / 2 * (i + 3), "#FFFFFF");
+                            break;
+                        case 3:
+                            writeText("Find the Tangent of a Value (°)", 25, BUTTON_HEIGHT / 2 * (i + 4), "#FFFFFF");
+                            writeText(">", WIDTH - 25, BUTTON_HEIGHT / 2 * (i + 4), "#FFFFFF");
+                            break;
+                    }
+                }
+            }
 
-    function clickHandler(e){
-        var x = e.getX();
-        var y = e.getY();
-        switch(getButtonClick(y)){
-            case 1:
-                degToRadActivity();
-                break;
-            case 2:
-                sineActivity();
-                break;
-            case 3:
-                cosineActivity();
-                break;
-            case 4:
-                tangentActivity();
-                break;
-        }
-    }
-    function getButtonClick(y){
-        var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
-        return btn;
-    }
-    function setupCard(){
-        removeAll();
-        setBackgroundColor("#D3D3D3");
-        drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
-    }
-//---------------------------------------------------------------------------------------------------------
-//Degrees to Radians Activity (exec after btn 1 is clicked)
-    function degToRadActivity(){
-        setupCard();
-        var theta = getNumFromUser("Enter an integer angle, in degrees, to convert to radians.");
-        var theta_rad = degToRad(theta, true);
-		writeText(theta + "° in rad is " + theta_rad + "π rad", 50, 110, Color.WHITE);
-	}
+            function drawRect(l, w, x, y, color, borderColor) {
+                var rect = new Rectangle(l, w);
+                rect.setPosition(x, y);
+                rect.setColor(color);
+                rect.setBorderColor(borderColor);
+                add(rect);
+            }
 
-    function degToRad(theta, withPi){
-        if(checkIfAngleNegative(theta)){
-            theta = 360 + theta;
-        }
-		if(withPi){
-			theta_rad = theta / 180;
-		} else {
-			theta_rad = (theta/180) * Math.PI;
-		}
-		return theta_rad;
-    }
-//----------------------------------------------------------------------------------------------------------
-//Sine of an angle Activity (exec after btn 2 is clicked)
-    function sineActivity(){
-        setupCard();
-		var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine");
-        var sin_theta = sine(degToRad(theta, false));
-		writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
-    }
+            function writeText(label, x, y, color) {
+                var text = new Text(label, "12pt Helvetica");
+                text.setPosition(x, y);
+                text.setColor(color);
+                add(text);
+            }
 
-    function sine(theta){
-		var sin_theta = Math.sin(theta);
-		return sin_theta;
-    }
-//----------------------------------------------------------------------------------------------------------
-//Cosine of an angle Activity (exec after btn 3 is clicked)
-    function cosineActivity(){
-        setupCard();
-        cosine(); 
-    }
-    function cosine(){
-    }
-//----------------------------------------------------------------------------------------------------------
-//Tangent of an angle Activity (exec after btn 4 is clicked)
-    function tangentActivity(){
-        setupCard();
-        tangent(); 
-    }
-    function tangent(){
-    }
-//----------------------------------------------------------------------------------------------------------
-//Angle positive or negative checker
-    function checkIfAngleNegative(theta){
-        if(theta < 0){
-            return true;
-        }
-        return false;
-    }
+            function clickHandler(e) {
+                var x = e.getX();
+                var y = e.getY();
+                switch (getButtonClick(y)) {
+                    case 1:
+                        degToRadActivity();
+                        break;
+                    case 2:
+                        sineActivity();
+                        break;
+                    case 3:
+                        cosineActivity();
+                        break;
+                    case 4:
+                        tangentActivity();
+                        break;
+                }
+            }
 
-//----------------------------------------------------------------------------------------------------------
-//Get num from user
-	function getNumFromUser(msg){
-		var x = readInt(msg);
-		return x;
-	}
-};
-</script>
+            function getButtonClick(y) {
+                var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
+                return btn;
+            }
+
+            function setupCard() {
+                removeAll();
+                setBackgroundColor("#D3D3D3");
+                drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
+            }
+
+            function simplify(decimal) {
+                var deciPart = decimal - Math.floor(decimal);
+                var fracPart = Math.round(deciPart * 100);
+                var wholPart = decimal - deciPart;
+                var frac = wholPart + " & " + fracPart + "π/100";
+                return frac;
+            }
+            //---------------------------------------------------------------------------------------------------------
+            //Degrees to Radians Activity (exec after btn 1 is clicked)
+            function degToRadActivity() {
+                setupCard();
+                var theta = getNumFromUser("Enter an integer angle, in degrees, to convert to radians.");
+                var theta_rad = degToRad(theta, true);
+                var newTheta = simplify(theta_rad);
+                writeText(theta + "° in rad is about " + newTheta + " rad", 50, 110, Color.WHITE);
+            }
+
+            function degToRad(theta, withPi) {
+                var theta_rad;
+                if (checkIfAngleNegative(theta)) {
+                    theta = 360 + theta;
+                }
+                if (withPi) {
+                    theta_rad = theta / 180;
+                    return theta_rad;
+                } else {
+                    theta_rad = (theta / 180) * Math.PI;
+                    return theta_rad;
+                }
+            }
+            //----------------------------------------------------------------------------------------------------------
+            //Sine of an angle Activity (exec after btn 2 is clicked)
+            function sineActivity() {
+                setupCard();
+                var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine");
+                var sin_theta = sine(degToRad(theta, false));
+                writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
+            }
+
+            function sine(theta) {
+                var sin_theta = Math.sin(theta);
+                return sin_theta.toFixed(3);
+            }
+            //----------------------------------------------------------------------------------------------------------
+            //Cosine of an angle Activity (exec after btn 3 is clicked)
+            function cosineActivity() {
+                setupCard();
+                var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the cosine");
+                console.log(theta);
+                var cos_theta = cosine(degToRad(theta, false));
+                writeText("cos(" + theta + "°) = " + cos_theta, 50, 110, Color.WHITE);
+            }
+
+            function cosine(theta) {
+                var cos_theta = Math.cos(theta);
+                return cos_theta.toFixed(3);
+            }
+            //----------------------------------------------------------------------------------------------------------
+            //Tangent of an angle Activity (exec after btn 4 is clicked)
+            function tangentActivity(theta) {
+                setupCard();
+                var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the tangent");
+                var tan_theta = tangent(degToRad(theta, false));
+                writeText("tan(" + theta + "°) = " + tan_theta, 50, 110, Color.WHITE);
+                tangent();
+            }
+
+            function tangent(theta) {
+                var tan_theta = Math.tan(theta);
+                return tan_theta.toFixed(3);
+            }
+            //----------------------------------------------------------------------------------------------------------
+            //Angle positive or negative checker
+            function checkIfAngleNegative(theta) {
+                if (theta < 0) {
+                    return true;
+                }
+                return false;
+            }
+
+            //----------------------------------------------------------------------------------------------------------
+            //Get num from user
+            function getNumFromUser(msg) {
+                var x = readInt(msg);
+                return x;
+            }
+        };
+    </script>
 </body>
+
 </html>
