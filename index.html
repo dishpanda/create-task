@@ -1,19 +1,15 @@
 <html>
-
 <head>
     <title>CREATE TASK - AP CSP</title>
     <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://static.codehs.com/gulp/3d065bc81d3b7edf21e928ce2c764374a03c5cd6/chs-js-lib/chs.js"></script>
-
-
     <style>
         canvas {
             border: 1px solid black;
             display: inline-block;
             vertical-align: top;
         }
-
         pre {
             border: 1px solid black;
             display: inline-block;
@@ -21,14 +17,11 @@
             height: 500px;
             background-color: #F5F5F5;
         }
-
         body {
             font-family: Helvetica, sans-serif
         }
     </style>
-
 </head>
-
 <body>
     <h1>CREATE TASK - AP CSP</h1>
     <canvas width="400" height="500" class="codehs-editor-canvas"></canvas>
@@ -66,7 +59,6 @@
                     }
                 }
             }
-
             function drawRect(l, w, x, y, color, borderColor) {
                 var rect = new Rectangle(l, w);
                 rect.setPosition(x, y);
@@ -74,14 +66,12 @@
                 rect.setBorderColor(borderColor);
                 add(rect);
             }
-
             function writeText(label, x, y, color) {
                 var text = new Text(label, "12pt Helvetica");
                 text.setPosition(x, y);
                 text.setColor(color);
                 add(text);
             }
-
             function clickHandler(e) {
                 var x = e.getX();
                 var y = e.getY();
@@ -100,18 +90,15 @@
                         break;
                 }
             }
-
             function getButtonClick(y) {
                 var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
                 return btn;
             }
-
             function setupCard() {
                 removeAll();
                 setBackgroundColor("#D3D3D3");
                 drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
             }
-
             function simplify(decimal) {
                 var deciPart = decimal - Math.floor(decimal);
                 var fracPart = Math.round(deciPart * 100);
@@ -128,7 +115,6 @@
                 var newTheta = simplify(theta_rad);
                 writeText(theta + "° in rad is about " + newTheta + " rad", 50, 110, Color.WHITE);
             }
-
             function degToRad(theta, withPi) {
                 var theta_rad;
                 if (checkIfAngleNegative(theta)) {
@@ -150,7 +136,6 @@
                 var sin_theta = sine(degToRad(theta, false));
                 writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
             }
-
             function sine(theta) {
                 var sin_theta = Math.sin(theta);
                 return sin_theta.toFixed(3);
@@ -164,7 +149,6 @@
                 var cos_theta = cosine(degToRad(theta, false));
                 writeText("cos(" + theta + "°) = " + cos_theta, 50, 110, Color.WHITE);
             }
-
             function cosine(theta) {
                 var cos_theta = Math.cos(theta);
                 return cos_theta.toFixed(3);
@@ -178,7 +162,6 @@
                 writeText("tan(" + theta + "°) = " + tan_theta, 50, 110, Color.WHITE);
                 tangent();
             }
-
             function tangent(theta) {
                 var tan_theta = Math.tan(theta);
                 return tan_theta.toFixed(3);
@@ -191,7 +174,6 @@
                 }
                 return false;
             }
-
             //----------------------------------------------------------------------------------------------------------
             //Get num from user
             function getNumFromUser(msg) {
@@ -201,5 +183,4 @@
         };
     </script>
 </body>
-
 </html>
