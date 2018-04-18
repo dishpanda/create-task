@@ -66,12 +66,6 @@
                 rect.setBorderColor(borderColor);
                 add(rect);
             }
-            function writeText(label, x, y, color) {
-                var text = new Text(label, "12pt Helvetica");
-                text.setPosition(x, y);
-                text.setColor(color);
-                add(text);
-            }
             function clickHandler(e) {
                 var x = e.getX();
                 var y = e.getY();
@@ -94,11 +88,6 @@
                 var btn = Math.floor(y / BUTTON_HEIGHT) + 1;
                 return btn;
             }
-            function setupCard() {
-                removeAll();
-                setBackgroundColor("#D3D3D3");
-                drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
-            }
             function simplify(decimal) {
                 var deciPart = decimal - Math.floor(decimal);
                 var fracPart = Math.round(deciPart * 100);
@@ -115,6 +104,30 @@
                 var newTheta = simplify(theta_rad);
                 writeText(theta + "° in rad is about " + newTheta + " rad", 50, 110, Color.WHITE);
             }
+            //----------------------------------------------------------------------------------------------------------
+            //Sine of an angle Activity (exec after btn 2 is clicked)
+            function sineActivity() {
+                setupCard();
+                var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine");
+                var sin_theta = sine(degToRad(theta, false));
+                writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
+            }
+            function setupCard() {
+                removeAll();
+                setBackgroundColor("#D3D3D3");
+                drawRect(WIDTH - 50, HEIGHT - 100, 25, 50, "#4a5459", "#2c3235");
+            }
+            //Get num from user
+            function getNumFromUser(msg) {
+                var x = readInt(msg);
+                return x;
+            }
+            //return sine of a given RADIAN value
+            function sine(theta) {
+                var sin_theta = Math.sin(theta);
+                return sin_theta.toFixed(3);
+            }
+            //return RADIAN value for DEGREE value
             function degToRad(theta, withPi) {
                 var theta_rad;
                 if (checkIfAngleNegative(theta)) {
@@ -128,17 +141,12 @@
                     return theta_rad;
                 }
             }
-            //----------------------------------------------------------------------------------------------------------
-            //Sine of an angle Activity (exec after btn 2 is clicked)
-            function sineActivity() {
-                setupCard();
-                var theta = getNumFromUser("Enter an integer angle, in degrees, to perform the sine");
-                var sin_theta = sine(degToRad(theta, false));
-                writeText("sin(" + theta + "°) = " + sin_theta, 50, 110, Color.WHITE);
-            }
-            function sine(theta) {
-                var sin_theta = Math.sin(theta);
-                return sin_theta.toFixed(3);
+            //display some text
+            function writeText(label, x, y, color) {
+                var text = new Text(label, "12pt Helvetica");
+                text.setPosition(x, y);
+                text.setColor(color);
+                add(text);
             }
             //----------------------------------------------------------------------------------------------------------
             //Cosine of an angle Activity (exec after btn 3 is clicked)
@@ -174,11 +182,6 @@
                 return false;
             }
             //----------------------------------------------------------------------------------------------------------
-            //Get num from user
-            function getNumFromUser(msg) {
-                var x = readInt(msg);
-                return x;
-            }
         };
     </script>
 </body>
