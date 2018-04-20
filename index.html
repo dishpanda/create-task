@@ -141,12 +141,12 @@
                     return theta_rad;
                 }
             }
-            //display some text
-            function writeText(label, x, y, color) {
-                var text = new Text(label, "12pt Helvetica");
-                text.setPosition(x, y);
-                text.setColor(color);
-                add(text);
+            //Angle positive or negative checker
+            function checkIfAngleNegative(theta) {
+                if (theta < 0) {
+                    return true;
+                }
+                return false;
             }
             //----------------------------------------------------------------------------------------------------------
             //Cosine of an angle Activity (exec after btn 3 is clicked)
@@ -174,12 +174,12 @@
                 return tan_theta.toFixed(3);
             }
             //----------------------------------------------------------------------------------------------------------
-            //Angle positive or negative checker
-            function checkIfAngleNegative(theta) {
-                if (theta < 0) {
-                    return true;
-                }
-                return false;
+            //display some text
+            function writeText(label, x, y, color) {
+                var text = new Text(label, "12pt Helvetica");
+                text.setPosition(x, y);
+                text.setColor(color);
+                add(text);
             }
             //----------------------------------------------------------------------------------------------------------
         };
