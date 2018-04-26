@@ -10,4 +10,4 @@ The AP exam for APCSP has three parts:
 * Exam
   * The Exam is multiple choice and asks questions about programming knowledge, including things like binary and hexadecimal.
 # My Program
-My program is a math calculator that performs trigonometric functions like sin, cosine, and tangent. It can also perform degree to radian changes.
+My program is a math calculator that performs trigonometric functions like sine, cosine, and tangent. It can also perform degree to radian changes.
